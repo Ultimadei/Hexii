@@ -43,10 +43,14 @@ bool Hexagon::collidePoint(sf::Vector2f point) const {
 	sf::Transform rotationTransform;
 	rotationTransform.rotate(getRotation());
 
+	// Rotating the point about the hexgaon's center has the same result as rotating the Hexagon, but avoids Axis Alignment issues as it is a single point
+	point -= hexagonPosition;
+	point = rotationTransform.transformPoint(point);
+
+	// sf::FloatRect bounds(hexagonPosition.x - m_size, hexagonPosition.y - (height() * 0.5f), width(), height());
 	sf::FloatRect bounds(-m_size, -(height() * 0.5f), width(), height());
-	bounds = rotationTransform.transformRect(bounds);
-	bounds.left += hexagonPosition.x;
-	bounds.top += hexagonPosition.y;
+
+	// Perform a collision check with the Hexagon bounds
 
 	/*if (point.x > centerPosition.x + m_size ||
 		point.x < centerPosition.x - m_size ||
@@ -58,10 +62,7 @@ bool Hexagon::collidePoint(sf::Vector2f point) const {
 	}*/
 	if (!bounds.contains(point)) { return false; }
 
-	// Transform point into hexagon's local coordinates
-	point -= hexagonPosition;
-	point = rotationTransform.transformPoint(point);
-
+	// Move point into the bottom right quadrant (positive x, positive y)
 	point.x = std::abs(point.x);
 	point.y = std::abs(point.y);
 	

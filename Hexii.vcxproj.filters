@@ -207,22 +207,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\textures\blueMatterBase.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="assets\textures\darkMatterBase.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="assets\textures\greenMatterBase.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="assets\textures\redMatterBase.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="assets\textures\upgradeGreenMatterYieldIcon.png">
-      <Filter>Assets</Filter>
-    </Image>
     <Image Include="assets\textures\upgradeLockedIcon.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\blueMatter.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\greenMatter.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\redMatter.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

@@ -202,11 +202,9 @@
     <ClInclude Include="Trig.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\textures\blueMatterBase.png" />
-    <Image Include="assets\textures\darkMatterBase.png" />
-    <Image Include="assets\textures\greenMatterBase.png" />
-    <Image Include="assets\textures\redMatterBase.png" />
-    <Image Include="assets\textures\upgradeGreenMatterYieldIcon.png" />
+    <Image Include="assets\textures\blueMatter.png" />
+    <Image Include="assets\textures\greenMatter.png" />
+    <Image Include="assets\textures\redMatter.png" />
     <Image Include="assets\textures\upgradeLockedIcon.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

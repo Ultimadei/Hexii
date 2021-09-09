@@ -80,8 +80,8 @@ void HexiiUpgradeOverlay::activate(const Hexagon* target, short availableUpgrade
 			
 		switch (i) {
 		case 0:
-			texture = ResourceManager::getTexture("upgradeGreenMatterYieldIcon");
-			break;
+			//texture = ResourceManager::getTexture("upgradeGreenMatterYieldIcon");
+			//break;
 		default:
 			texture = ResourceManager::getTexture("upgradeLockedIcon");
 			break;

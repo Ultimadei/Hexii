@@ -7,6 +7,7 @@
 Game::Game() :
 	m_window(sf::VideoMode(960, 600), "Hexii"),
     m_mainViewSize(1000.0f),
+    m_mainViewMaximumPanFactor(1.5f),
     m_mainViewZoom(1.0f),
 	m_hexagonCluster(Hexagon(100.0f), Hexagon(100.0f)),
     m_worldBorder(927.63f),
@@ -41,7 +42,7 @@ Game::Game() :
     // Fixup the green matter position and display
     m_greenMatter.setPosition(25.0f, 50.0f);
     m_greenMatter.setCharacterSize(70);
-    m_greenMatter.setSprite("blueMatter", 0.25f);
+    m_greenMatter.setSprite("greenMatter", 0.25f);
 
     // Fixup the next hex cost display
     m_nextHexCost.setFont(*ResourceManager::getFont("cour"));
@@ -91,8 +92,7 @@ void Game::refreshDisplayNextHexCost() {
     m_nextHexCost.setScale(scaleFactor, scaleFactor);
 }
 
-void Game::refreshStoredValues() {
-    refreshStoredMousePosition();
+void Game::refreshStoredHexagons() {
     refreshStoredCollidingHexagon();
     refreshStoredNearestBorder();
 }
@@ -160,22 +160,32 @@ void Game::refreshStoredNearestBorder() {
     m_currentStore.nearestBorder = nearestBorder;
 }
 
-void Game::refreshStoredMousePosition() {
-    m_window.setView(m_mainView);
-    m_currentStore.mousePosition = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
-}
-
-void Game::refreshMainView() {
+void Game::refreshMainView(bool use) {
     const sf::Vector2u screenSize = m_window.getSize();
     const float ratio = (float)screenSize.x / (float)screenSize.y;
+    const float maximumPanDistance = m_mainViewMaximumPanFactor * m_mainViewSize;
+
+    if (m_mainViewPan.x > maximumPanDistance) { m_mainViewPan.x = maximumPanDistance; }
+    else if (m_mainViewPan.x < -maximumPanDistance) { m_mainViewPan.x = -maximumPanDistance; }
+
+    if (m_mainViewPan.y > maximumPanDistance) { m_mainViewPan.y = maximumPanDistance; }
+    else if (m_mainViewPan.y < -maximumPanDistance) { m_mainViewPan.y = -maximumPanDistance; }
 
     m_mainView = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(ratio * m_mainViewSize, m_mainViewSize));
     m_mainView.zoom(m_mainViewZoom);
     m_mainView.move(m_mainViewPan);
+
+    if (use) {
+        m_window.setView(m_mainView);
+    }
 }
 
 bool Game::getNextHexCostAffordable() const {
     return m_greenMatter.getNumber() >= m_nextHexCost.getNumber();
+}
+
+sf::Vector2f Game::getWorldMousePosition() const {
+    return m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
 }
 
 Hexagon* Game::accessHexagon(const HexagonIndexPair& target) const {
@@ -215,8 +225,7 @@ void Game::purchaseHex(HexagonIndexPair target) {
 
         // refresh relevant stores and displays
         refreshDisplayNextHexCost();
-        refreshStoredCollidingHexagon();
-        refreshStoredNearestBorder();
+        refreshStoredHexagons();
     }
 }
 
@@ -229,6 +238,9 @@ void Game::processHexClick(HexagonIndexPair target) {
 }
 
 void Game::processInput() {
+    // All input processing uses the main view
+    m_window.setView(m_mainView);
+
     sf::Event evnt;
     while (m_window.pollEvent(evnt)) {
         switch (evnt.type) {
@@ -237,6 +249,7 @@ void Game::processInput() {
             break;
         case sf::Event::MouseButtonPressed:
             m_mousePressStore.mousePosition = m_currentStore.mousePosition;
+
             m_mousePressStore.collidingHexagon = m_hexagonCluster.calculateNearestHexagon(
                 m_currentStore.mousePosition,
                 0.0f
@@ -246,9 +259,21 @@ void Game::processInput() {
                 0.0f
             );
             break;
-        case sf::Event::MouseMoved: 
-            refreshStoredValues();
-            break;            
+        case sf::Event::MouseMoved:
+        {
+            sf::Vector2f mousePosition = getWorldMousePosition();
+
+            // If the right mouse button is being held down, pan the camera as the mouse moves
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+                m_mainViewPan.x += (mousePosition.x - m_currentStore.mousePosition.x) * -1.0f;
+                m_mainViewPan.y += (mousePosition.y - m_currentStore.mousePosition.y) * -1.0f;
+            }
+
+            refreshMainView();
+            m_currentStore.mousePosition = getWorldMousePosition();
+            refreshStoredHexagons();
+            break;
+        }
         case sf::Event::MouseButtonReleased:
             if (evnt.mouseButton.button == sf::Mouse::Button::Left) { // Left mouse click
                 // Verify the mouse is and was inside of the world border
@@ -257,7 +282,7 @@ void Game::processInput() {
                 ) { break; }
 
                 if (m_hexiiUpgradeOverlay.getActive()) {
-
+                    // TODO: Implement upgrades
                 }
                 // Verify the mouse was inside the same hexagon when it was first pressed
                 else if (
@@ -285,7 +310,12 @@ void Game::processInput() {
                     if (m_hexiiUpgradeOverlay.getActive()) {
                         m_hexiiUpgradeOverlay.deactivate();
                     }
-                    else if (m_currentStore.collidingHexagon.hexagon != nullptr) {
+                    // Hexii upgrade overlay should be activated
+                    // Check that the mouse is being released on the same hexagon it initially clicked
+                    else if (
+                        m_currentStore.collidingHexagon.hexagon != nullptr &&
+                        m_currentStore.collidingHexagon.hexagon == m_mousePressStore.collidingHexagon.hexagon
+                    ) {
                         m_hexiiUpgradeOverlay.activate(m_currentStore.collidingHexagon.hexagon, 1);
                     }
                 }
@@ -297,7 +327,7 @@ void Game::processInput() {
             if (m_mainViewZoom < 0.5f) { m_mainViewZoom = 0.5f; } // Minimum zoom
 
             refreshMainView();
-            refreshStoredValues();
+            refreshStoredHexagons();
             break;
         case sf::Event::Resized: 
             refreshMainView();

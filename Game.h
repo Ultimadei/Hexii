@@ -16,6 +16,12 @@ public:
 
 	void run();
 private:
+	struct InputStore {
+		sf::Vector2f mousePosition;
+		HexagonIndexPair collidingHexagon;
+		HexagonIndexPair nearestBorder;
+	};
+private:
 	/// ** Member functions ** ///
 
 	/// Refresh functions
@@ -23,22 +29,23 @@ private:
 	// Refreshes the nextHexCostDisplay text
 	void refreshDisplayNextHexCost();
 
-	// Refreshes all Game's stored values
-	void refreshStoredValues();
+	// Refreshes the current stored border and colliding hexagon
+	void refreshStoredHexagons();
 	// Refreshes the store for the hexagon the mouse is currently colliding with
 	void refreshStoredCollidingHexagon();
 	// Refreshes the store for the border nearest the mouse
 	void refreshStoredNearestBorder();
-	// Refreshes the stored mouse position
-	void refreshStoredMousePosition();
-
 	// Refreshes the view according to the zoom factor and panning
-	void refreshMainView();
+	// If use is true, the main view will be set as the active view for window
+	void refreshMainView(bool use = true);
 
 	/// Utility functions
 
 	// Returns true if the next hex cost is affordable aka <= current green matter
 	bool getNextHexCostAffordable() const;
+
+	// Returns the mouse position in world coordinates
+	sf::Vector2f getWorldMousePosition() const;
 
 	// Uses const_cast to gain access to the hexagon stored in an index pair
 	// This is completely safe and allows the HexagonPlane to remain mostly const-friendly
@@ -71,6 +78,8 @@ private:
 	// View values 
 
 	const float m_mainViewSize;
+	// Can pan up to this many mainViewSizes in both axes
+	const float m_mainViewMaximumPanFactor;
 	sf::View m_mainView;
 	float m_mainViewZoom;
 	sf::Vector2f m_mainViewPan;
@@ -78,11 +87,8 @@ private:
 	/// Stored values
 
 	// Stores data for use between processInput cycles
-	struct InputStore {
-		sf::Vector2f mousePosition;
-		HexagonIndexPair collidingHexagon;
-		HexagonIndexPair nearestBorder;
-	} m_currentStore, m_mousePressStore;
+	InputStore m_currentStore;
+	InputStore m_mousePressStore;
 
 	/// Gameplay relevant
 
