@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source\Util">
+      <UniqueIdentifier>{1c04d8fc-401c-4c64-b058-1c852b5a0dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Util\Source">
+      <UniqueIdentifier>{a4cbc784-b074-4137-aaf3-82172d336ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hexagon">
+      <UniqueIdentifier>{8722afcd-71d0-4806-9bb0-4ffad692610d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hexagon\Source">
+      <UniqueIdentifier>{2d7529df-6020-4ff9-944e-952f56aa49bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System">
+      <UniqueIdentifier>{1a51e653-4cf6-42f3-88cd-fb5c127c6968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System\Source">
+      <UniqueIdentifier>{0810e43b-a45d-4d2b-be68-1de3e9e8e971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Animation">
+      <UniqueIdentifier>{bf9a98e9-0fa2-42bc-af72-5547daf1ff77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Animation\Source">
+      <UniqueIdentifier>{0d92ad6e-3f31-4228-bee5-9a4cb20a9067}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source\Graphical">
+      <UniqueIdentifier>{54040967-27e2-4bbb-af33-19ae945400ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphical\Source">
+      <UniqueIdentifier>{6a5758e9-6e9e-4a46-95e1-900ccb2c878e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphical\Element">
+      <UniqueIdentifier>{ce024a73-0527-4959-96da-d729e6369a2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphical\Element\Source">
+      <UniqueIdentifier>{969798bc-5cec-4b64-8c20-2e5eda37b3f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Base">
+      <UniqueIdentifier>{b421f735-e97e-4147-b571-419105a8bad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Base\Parent">
+      <UniqueIdentifier>{e2676d92-5e49-4510-baa9-6d8c6d248b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Base\Parent\Source">
+      <UniqueIdentifier>{1e85045f-b9c1-4b0f-be5e-d7e009d8de22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Base\Interface">
+      <UniqueIdentifier>{10746988-192b-40fb-b91c-8af9093abfcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Base\Interface\Source">
+      <UniqueIdentifier>{248019da-f75a-4ac7-a16a-dc810c40542e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BigNumber.cpp">
+      <Filter>Source\Util\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Hexagon.cpp">
+      <Filter>Source\Hexagon\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HexagonCluster.cpp">
+      <Filter>Source\Hexagon\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HexagonPlane.cpp">
+      <Filter>Source\Hexagon\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source\System\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source\System\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source\System\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="NumberDisplay.cpp">
+      <Filter>Source\Graphical\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HexiiUpgradeOverlay.cpp">
+      <Filter>Source\Graphical\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BezierCurve.cpp">
+      <Filter>Source\Animation\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Trig.cpp">
+      <Filter>Source\Util\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ParentBase.cpp">
+      <Filter>Source\Base\Interface\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractElementBase.cpp">
+      <Filter>Source\Base\Interface\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BezierCurvePresets.cpp">
+      <Filter>Source\Util\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorAnimation.cpp">
+      <Filter>Source\Animation\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RotationAnimation.cpp">
+      <Filter>Source\Animation\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TranslationAnimation.cpp">
+      <Filter>Source\Animation\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationBase.cpp">
+      <Filter>Source\Base\Interface\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationParent.cpp">
+      <Filter>Source\Base\Parent\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementParent.cpp">
+      <Filter>Source\Base\Parent\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvexShapeElement.cpp">
+      <Filter>Source\Graphical\Element\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteElement.cpp">
+      <Filter>Source\Graphical\Element\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleShapeElement.cpp">
+      <Filter>Source\Graphical\Element\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Trig.h">
+      <Filter>Source\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BigNumber.h">
+      <Filter>Source\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Hexagon.h">
+      <Filter>Source\Hexagon</Filter>
+    </ClInclude>
+    <ClInclude Include="HexagonCluster.h">
+      <Filter>Source\Hexagon</Filter>
+    </ClInclude>
+    <ClInclude Include="HexagonPlane.h">
+      <Filter>Source\Hexagon</Filter>
+    </ClInclude>
+    <ClInclude Include="HexiiData.h">
+      <Filter>Source\Hexagon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberDisplay.h">
+      <Filter>Source\Graphical</Filter>
+    </ClInclude>
+    <ClInclude Include="HexiiUpgradeOverlay.h">
+      <Filter>Source\Graphical</Filter>
+    </ClInclude>
+    <ClInclude Include="BezierCurve.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="BezierCurvePresets.h">
+      <Filter>Source\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="TranslationAnimation.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="RotationAnimation.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorAnimation.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationParent.h">
+      <Filter>Source\Base\Parent</Filter>
+    </ClInclude>
+    <ClInclude Include="ElementParent.h">
+      <Filter>Source\Base\Parent</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvexShapeElement.h">
+      <Filter>Source\Graphical\Element</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteElement.h">
+      <Filter>Source\Graphical\Element</Filter>
+    </ClInclude>
+    <ClInclude Include="ParentBase.h">
+      <Filter>Source\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationBase.h">
+      <Filter>Source\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractElementBase.h">
+      <Filter>Source\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ElementBase.h">
+      <Filter>Source\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleShapeElement.h">
+      <Filter>Source\Graphical\Element</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\blueMatterBase.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\darkMatterBase.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\greenMatterBase.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\redMatterBase.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\upgradeGreenMatterYieldIcon.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\upgradeLockedIcon.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
