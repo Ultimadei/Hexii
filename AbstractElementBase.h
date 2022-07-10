@@ -15,6 +15,7 @@ public:
 	virtual void setOutlineThickness(float thickness) = 0;
 	virtual void setTexture(const sf::Texture* texture, bool resetRect = true) = 0;
 	virtual void setTextureRect(const sf::IntRect& rect) = 0;
+	void setShader(sf::Shader* shader);
 	void setActive(bool active);
 
 	virtual sf::Color getFillColor() const = 0;
@@ -28,6 +29,7 @@ public:
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override = 0;
 
+	sf::Shader* m_shader;
 	bool m_active;
 private:
 };

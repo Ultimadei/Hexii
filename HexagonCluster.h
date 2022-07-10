@@ -13,14 +13,14 @@ public:
 	// Construct with a blueprint hexagon. The center and all future hexagons in this cluster will use this blueprint
 	HexagonCluster(Hexagon blueprint, Hexagon borderBlueprint);
 
-	// Calculates and returns the HexagonIndexPair of the border nearest the mouse as long as it falls within maximum distance
+	// Calculates and returns the HexagonIndexPair of the border nearest `point` as long as it falls within maximum distance
 	// If maximum distance is 0, a collision check will be performed rather than a distance check
 	// Returns (0, 0, 0) and nullptr if unsuccessful
-	HexagonIndexPair calculateNearestBorder(sf::Vector2f mousePosition, float maximumDistance = 0.0f) const;
-	// Calculates and returns the HexagonIndexPair of the hexagon nearest the mouse as long as it falls within maximum distance
+	HexagonIndexPair calculateNearestBorder(sf::Vector2f point, float maximumDistance = 0.0f) const;
+	// Calculates and returns the HexagonIndexPair of the hexagon nearest `point` as long as it falls within maximum distance
 	// If maximum distance is 0, a collision check will be performed rather than a distance check
 	// Returns (0, 0, 0) and nullptr if unsuccessful
-	HexagonIndexPair calculateNearestHexagon(sf::Vector2f mousePosition, float maximumDistance = 0.0f) const;
+	HexagonIndexPair calculateNearestHexagon(sf::Vector2f point, float maximumDistance = 0.0f) const;
 
 	// Creates a hexagon at index. Fails if there isn't a border at index (because they must be connected)
 	// Returns the HexagonIndexPair of the new hex (with nullptr if unsuccessful)
@@ -57,7 +57,7 @@ protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 private:
 	// Calculates the nearest hexagon in a particular plane
-	HexagonIndexPair calculateNearest(const HexagonPlane& plane, sf::Vector2f mousePosition, float maximumDistance = 0.0f) const;
+	HexagonIndexPair calculateNearest(const HexagonPlane& plane, sf::Vector2f point, float maximumDistance = 0.0f) const;
 
 	// Erases the existing border at index, and then expands the surrounding border
 	void expandBorders(int x, int y, int z);

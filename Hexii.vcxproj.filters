@@ -131,6 +131,15 @@
     <ClCompile Include="RectangleShapeElement.cpp">
       <Filter>Source\Graphical\Element\Source</Filter>
     </ClCompile>
+    <ClCompile Include="DisplayManager.cpp">
+      <Filter>Source\System\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source\System\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HexiiManager.cpp">
+      <Filter>Source\System\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Trig.h">
@@ -204,6 +213,15 @@
     </ClInclude>
     <ClInclude Include="RectangleShapeElement.h">
       <Filter>Source\Graphical\Element</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayManager.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="HexiiManager.h">
+      <Filter>Source\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -51,5 +51,7 @@ void SpriteElement::operator=(const SpriteElement& right) {
 void SpriteElement::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	states.transform.combine(getTransform());
 
+	if (m_shader != nullptr) states.shader = m_shader;
+
 	target.draw(m_inner, states);
 }

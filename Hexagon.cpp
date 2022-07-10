@@ -2,6 +2,9 @@
 
 #include "Trig.h"
 
+#include "DisplayManager.h"
+#include "ResourceManager.h"
+
 Hexagon::Hexagon(float size, sf::Vector2f initialPosition, HexiiData* initialData) :
 	ConvexShapeElement(6),
 	m_size(size),
@@ -115,6 +118,17 @@ void Hexagon::operator=(const Hexagon& copy) {
 
 void Hexagon::update(float dt) {
 	updateAnimations(dt);
+	if (m_shader != nullptr) {
+		// TODO: Get rid of bad tmp code
+		static sf::Clock timer;
+		m_shader->setUniform("time", timer.getElapsedTime().asSeconds());
+		auto t = ResourceManager::getTexture("hexProgressBar");
+		setTexture(t);
+		m_shader->setUniform("progressBar", *t);
+		auto a = sf::Vector2f(DisplayManager::worldToScreen(getPosition()));
+		// printf("%d %d\n", (int)a.x, (int)a.y);
+		m_shader->setUniform("center", a);
+	}
 }
 
 void Hexagon::draw(sf::RenderTarget& target, sf::RenderStates states) const {

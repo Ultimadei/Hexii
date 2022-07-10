@@ -14,7 +14,6 @@ public:
 	void activate(const Hexagon* target, short availableUpgrades);
 	void deactivate();
 
-	// Sets the 
 	void setBasePosition(const sf::Vector2f& basePosition);
 
 	bool getActive() const;

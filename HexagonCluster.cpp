@@ -11,12 +11,12 @@ HexagonCluster::HexagonCluster(Hexagon blueprint, Hexagon borderBlueprint) :
 	expandBorders(0, 0, 0);
 }
 
-HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearestBorder(sf::Vector2f mousePosition, float maximumDistance) const {
-	return calculateNearest(m_borderPlane, mousePosition, maximumDistance);
+HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearestBorder(sf::Vector2f point, float maximumDistance) const {
+	return calculateNearest(m_borderPlane, point, maximumDistance);
 }
 
-HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearestHexagon(sf::Vector2f mousePosition, float maximumDistance) const {
-	return calculateNearest(m_mainPlane, mousePosition, maximumDistance);
+HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearestHexagon(sf::Vector2f point, float maximumDistance) const {
+	return calculateNearest(m_mainPlane, point, maximumDistance);
 }
 
 HexagonCluster::HexagonIndexPair HexagonCluster::setIndex(int x, int y, int z) {
@@ -136,9 +136,9 @@ void HexagonCluster::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	target.draw(m_borderPlane, states);
 }
 
-HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearest(const HexagonPlane& plane, sf::Vector2f mousePosition, float maximumDistance) const {
-	// Adjust the mousePosition into the cluster's space
-	mousePosition = mousePosition - getPosition();
+HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearest(const HexagonPlane& plane, sf::Vector2f point, float maximumDistance) const {
+	// Adjust `point` into the cluster's space
+	point = point - getPosition();
 	// All distance units are squared to avoid square rooting. Adjust for that reason
 	maximumDistance *= maximumDistance;
 
@@ -146,11 +146,11 @@ HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearest(const HexagonP
 	HexagonIndexPair result;
 
 	for (auto& i : plane.getHexagonMap()) {
-		sf::Vector2f distance = i.second.getPosition() - mousePosition;
+		sf::Vector2f distance = i.second.getPosition() - point;
 		distance.x *= distance.x;
 		distance.y *= distance.y;
 
-		// quickDistance is the distance between position an mousePosition, squared (for performance)
+		// quickDistance is the distance between position and `point`, squared (for performance)
 		float quickDistance = distance.x + distance.y;
 
 		if (quickDistance < (100.0f * 100.0f)) {
@@ -173,7 +173,7 @@ HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearest(const HexagonP
 
 	if (maximumDistance == 0.0f && result.hexagon != nullptr) {
 		// Collision check the nearest
-		if (!result.hexagon->collidePoint(mousePosition)) { // No collision
+		if (!result.hexagon->collidePoint(point)) { // No collision
 			result.index = sf::Vector3i(0, 0, 0);
 			result.hexagon = nullptr;
 		}

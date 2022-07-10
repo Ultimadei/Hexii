@@ -58,5 +58,7 @@ void ConvexShapeElement::operator=(const ConvexShapeElement& right) {
 void ConvexShapeElement::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	states.transform.combine(getTransform());
 
+	if (m_shader != nullptr) states.shader = m_shader;
+
 	target.draw(m_inner, states);
 }
