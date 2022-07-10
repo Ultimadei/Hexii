@@ -37,9 +37,9 @@ bool ParentBase<_chTy>::setChild(const std::string& name, _chTy* child, bool con
 
 template<typename _chTy>
 const _chTy* ParentBase<_chTy>::getChild(const std::string& name) const {
-	auto found = m_children.find(name);
-	if (found != m_children.end()) { // The name was found
-		return found->second;
+	auto it = m_children.find(name);
+	if (it != m_children.end()) { // The name was it
+		return it->second;
 	}
 
 	return nullptr;
@@ -52,10 +52,10 @@ _chTy* ParentBase<_chTy>::accessChild(const std::string& name) {
 
 template<typename _chTy>
 void ParentBase<_chTy>::removeChild(const std::string& name) {
-	auto found = m_children.find(name);
-	if (found != m_children.end()) { // The name was found
-		delete found->second;
-		m_children.erase(found);
+	auto it = m_children.find(name);
+	if (it != m_children.end()) { // The name was it
+		delete it->second;
+		m_children.erase(it);
 	}
 }
  

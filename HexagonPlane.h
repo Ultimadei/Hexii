@@ -32,71 +32,65 @@ private:
 		}
 	};
 
-	typedef std::map<sf::Vector3i, Hexagon, Vector3iComparator> HexagonMap;
+	typedef std::map<sf::Vector3i, Hexagon*, Vector3iComparator> HexagonMap;
 public:
 	/// ** Public Structs & Definitions ** ///
 
 	struct HexagonIndexPair {
 		sf::Vector3i index;
-		const Hexagon* hexagon = nullptr;
+		Hexagon* hexagon = nullptr;
 	};
 
 	struct NeighborGroup {
+		HexagonIndexPair centre;
 		HexagonIndexPair neighbors[6];
 	};
 public:
 	HexagonPlane(float hexSize);
 
-	/// ** Public Member Functions ** ///
+	/// Interfacing
 
-	/// Index manipulation
+	/*
+	Sets the hexagon at the specified index
+	If conditional, the index will only be set as long as it is currently empty
+	Returns a HexagonIndexPair containing the new hexagon (or nullptr if it was unsuccessful)
+	*/
+	HexagonIndexPair setIndex(Hexagon* hexagon, const sf::Vector3i& index, bool conditional = false);
+	inline HexagonIndexPair setIndex(Hexagon* hexagon, int x, int y, int z, bool conditional = false) 
+		{ return setIndex(hexagon, sf::Vector3i(x, y, z), conditional); }
 
-	// Erases the hexagon at the specified index
-	// Does nothing if the index has no hexagon already
-	void eraseIndex(int x, int y, int z);
+	// Erases the hexagon at the specified index if one exists
 	void eraseIndex(const sf::Vector3i& index);
-
-	// Sets the hexagon at the specified index
-	// If conditional, the index will only be set as long as it is currently empty
-	// Returns a const pointer to the new hexagon (or nullptr if it was unsuccessful)
-	const Hexagon* setIndex(Hexagon hexagon, int x, int y, int z, bool conditional = false);
-	const Hexagon* setIndex(Hexagon hexagon, const sf::Vector3i& index, bool conditional = false);
-
-	// Returns a const pointer to the hexagon at the specified index
-	// Returns nullptr  
-	const Hexagon* getIndex(int x, int y, int z) const;
-	const Hexagon* getIndex(const sf::Vector3i& index) const;
-
-	/// Utility functions
-
-	// Returns the indices and hexagons surrounding the specified index
-	// Neither index, nor any of its neighbors, are required to have a hexagon set
-	const NeighborGroup getNeighbors(int x, int y, int z) const;
+	inline void eraseIndex(int x, int y, int z) { eraseIndex(sf::Vector3i(x, y, z)); }
+	
+	// Returns the indices and hexagons surrounding `index`
+	// Note: Neither index, nor any of its neighbors, are required to actually have a hexagon
 	const NeighborGroup getNeighbors(const sf::Vector3i& index) const;
+	inline const NeighborGroup getNeighbors(int x, int y, int z) const { return getNeighbors(sf::Vector3i(x, y, z)); }
 
-	// Get the position of the hexagon at the specified index
-	sf::Vector2f getPositionFromIndex(int x, int y, int z) const;
+	// Get the position of the hexagon at `index`
 	sf::Vector2f getPositionFromIndex(const sf::Vector3i& index) const;
-	// Get the index which corresponds to the specified position
-	// Position is assumed to be valid in this plane, otherwise the behavior is undefined
-	sf::Vector3i getIndexFromPosition(const sf::Vector2f& position) const;
+	inline sf::Vector2f getPositionFromIndex(int x, int y, int z) const { return getPositionFromIndex(sf::Vector3i(x, y, z)); }
 
-	/// Member variable setters & getters
+	// Get the index corresponding to `position`
+	sf::Vector3i getIndexFromPosition(const sf::Vector2f& position) const;	
 
-	const HexagonMap& getHexagonMap() const;
-	// Returns a non-const reference to the hexagon map
-	HexagonMap& accessHexagonMap();
+	// Returns a HexagonIndexPair containing the hexagon at `index` (or nullptr if none)
+	HexagonIndexPair getIndex(const sf::Vector3i& index) const;
+	inline HexagonIndexPair getIndex(int x, int y, int z) const { return getIndex(sf::Vector3i(x, y, z)); }
 
-	/// Per-frame functions
+	/// Utility
+
+	// Returns the inner map for easy iteration
+	inline HexagonMap& getHexagonMap() { return m_hexagonMap; }
+	// Returns the inner map as const
+	inline const HexagonMap& hexagonMap() const { return m_hexagonMap; }
+	inline float hexagonSize() const { return m_hexSize; }
 
 	void update(float dt);
 protected:
-	/// ** Protected Member Functions ** ///
-
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 private:
-	/// ** Member variables ** ///
-
 	const float m_hexSize;
 
 	HexagonMap m_hexagonMap;

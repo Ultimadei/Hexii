@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Trig.h"
+
 #include "ElementParent.h"
 #include "AnimationParent.h"
 #include "ConvexShapeElement.h"
-
-#include "HexiiData.h"
 
 class Hexagon :
 	public ElementParent,
@@ -12,35 +12,39 @@ class Hexagon :
 	public ConvexShapeElement {
 public:
 	// Construct with size and optionally with a starting position and/or hexii data
-	Hexagon(float size, sf::Vector2f initialPosition = sf::Vector2f(0.0f, 0.0f), HexiiData* initialData = nullptr);
-	// Construct from primatives
-	Hexagon(float size, float x, float y, HexiiData* initialData = nullptr);
+	Hexagon(float size, sf::Vector2f initialPosition = sf::Vector2f(0.0f, 0.0f));
 	// Copy constructor
 	Hexagon(const Hexagon& right);
-	~Hexagon();
+	inline ~Hexagon() {}
 
-	// Checks if there is a collision with point
-	bool collidePoint(sf::Vector2f point) const;
+	/// ** Public member functions
 
-	const HexiiData* getData() const;
-	// Returns the data object
-	// Note: If none exists, this function will create it first
-	HexiiData* accessData();
+	// Checks if there is a collision with `point`
+	bool collidePoint(sf::Vector2f point) const;	
 
-	void center(const sf::FloatRect& target, bool horizontal = true, bool vertical = true);
+	/// Utility 
 
-	float size() const;
-	float width() const;
-	float height() const;
+	inline static float width(float size) { return size * 2.0f; }
+	inline static float height(float size) { return size * CONSTANT_SQRT3; }
 
-	// Preserves own size, data and all children. Everything else is copied from right
+	inline float size() const { return m_size; }
+	inline float width() const { return m_size * 2.0f; }
+	inline float height() const { return m_size * CONSTANT_SQRT3; }
+
+	// Preserves own size and children. Everything else is copied from right
 	void operator=(const Hexagon& right);
+
+	/// Callback
+
+	inline virtual void onMouseEnter() {}
+	inline virtual void onMouseExit() {}
+	inline virtual void onMouseClick() {}
+	inline virtual void onMouseRelease() {}
 
 	virtual void update(float dt);
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 private:
+	// "size" refers to the side length
 	const float m_size;
-
-	HexiiData* m_data;
 };

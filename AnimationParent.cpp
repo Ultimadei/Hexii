@@ -20,8 +20,8 @@ bool AnimationParent::setAnimation(const std::string& name, AnimationBase* child
 	}
 	else {
 		if (conditional) {
-			auto found = statePair->second.find(state);
-			if (found == statePair->second.end()) { 
+			auto it = statePair->second.find(state);
+			if (it == statePair->second.end()) { 
 				// Delete the parameter to prevent a memory leak
 				delete child;
 				return false; 
@@ -131,9 +131,9 @@ void AnimationParent::removeAnimation(const std::string& name, const std::string
 	AnimationStatePair* statePair = accessChild(name);
 
 	if (statePair != nullptr) {
-		auto found = statePair->second.find(state);
-		if (found != statePair->second.end()) { // state exists
-			delete found->second;
+		auto it = statePair->second.find(state);
+		if (it != statePair->second.end()) { // state exists
+			delete it->second;
 			statePair->second.erase(state);
 		}
 	}
@@ -149,9 +149,9 @@ void AnimationParent::updateAnimations(float dt) {
 
 const AnimationBase* AnimationParent::getAnimation(const AnimationStatePair* target, const std::string& state) const {
 	if (target != nullptr) {
-		auto found = target->second.find(state);
-		if (found != target->second.end()) {
-			return found->second;
+		auto it = target->second.find(state);
+		if (it != target->second.end()) {
+			return it->second;
 		}
 	}
 

@@ -1,10 +1,9 @@
 const float PI        = 3.1415926;
 const float TWO_PI    = 6.2831852;
-const float PI_SIXTHS = 0.5235988;
 
-uniform float time;
-// Center should be passed in as screen coordinates
-uniform vec2 center;
+uniform float progress;
+// Centre should be in the screen coordinate space
+uniform vec2 centre;
 uniform sampler2D progressBar;
 
 float angleBetween(vec2 v1, vec2 v2)
@@ -14,7 +13,7 @@ float angleBetween(vec2 v1, vec2 v2)
 
 float getTargetAngle() 
 {
-    return mod(time, TWO_PI);
+    return clamp(progress * TWO_PI, 0.0, TWO_PI);
 }
 
 // OpenGL uses upper left as origin by default
@@ -22,7 +21,7 @@ bool shouldDrawFragment(vec2 fragCoord)
 {
     float targetAngle = getTargetAngle();
 
-    float angle = angleBetween(center, fragCoord);
+    float angle = angleBetween(centre, fragCoord);
 
     return angle <= targetAngle;
 }

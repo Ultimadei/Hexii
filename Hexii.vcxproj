@@ -162,6 +162,7 @@
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="ElementParent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameHex.cpp" />
     <ClCompile Include="Hexagon.cpp" />
     <ClCompile Include="HexagonCluster.cpp" />
     <ClCompile Include="HexagonPlane.cpp" />
@@ -191,10 +192,10 @@
     <ClInclude Include="ElementBase.h" />
     <ClInclude Include="ElementParent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameHex.h" />
     <ClInclude Include="Hexagon.h" />
     <ClInclude Include="HexagonCluster.h" />
     <ClInclude Include="HexagonPlane.h" />
-    <ClInclude Include="HexiiData.h" />
     <ClInclude Include="HexiiManager.h" />
     <ClInclude Include="HexiiUpgradeOverlay.h" />
     <ClInclude Include="InputManager.h" />

@@ -140,6 +140,9 @@
     <ClCompile Include="HexiiManager.cpp">
       <Filter>Source\System\Source</Filter>
     </ClCompile>
+    <ClCompile Include="GameHex.cpp">
+      <Filter>Source\Hexagon\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Trig.h">
@@ -155,9 +158,6 @@
       <Filter>Source\Hexagon</Filter>
     </ClInclude>
     <ClInclude Include="HexagonPlane.h">
-      <Filter>Source\Hexagon</Filter>
-    </ClInclude>
-    <ClInclude Include="HexiiData.h">
       <Filter>Source\Hexagon</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -222,6 +222,9 @@
     </ClInclude>
     <ClInclude Include="HexiiManager.h">
       <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHex.h">
+      <Filter>Source\Hexagon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

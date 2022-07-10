@@ -4,7 +4,7 @@
 #include "NumberDisplay.h"
 #include "HexiiUpgradeOverlay.h"
 
-// Singleton class responsible for the gameplay functionality of the Hexii
+// Singleton class responsible for the gameplay functionality of the Hexii (Hexii is the plural of GameHex)
 class HexiiManager
 {
 private:
@@ -48,12 +48,20 @@ private:
 
 	/// Gameplay
 
-	static void setupHexiiGamepiece(Hexagon* target);
-	void processHexClick(HexagonIndexPair target);
+	void processHexYield(Hexagon* target, BigNumber yield);
+
+	Hexagon* generateGameHex();
+	Hexagon* generateBorderHex();
 
 	/// UI
-
-	void refreshDisplayNextHexCost();
+	
+	/*
+		Reasons for refreshing display:
+		- Green matter increased => Need to check if it's now affordable
+		- Next hex cost changed => Text change may require resetting origin etc
+		- Nearest border changed => Position needs to be updated
+	*/
+	void refreshDisplayNextHexCost(bool greenMatterChanged, bool nextHexCostChanged, bool nearestBorderChanged);
 
 	/// ** Member variables **
 

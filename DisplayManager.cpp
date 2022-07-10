@@ -11,6 +11,8 @@ DisplayManager::DisplayManager() :
     m_gameViewPan(0.0f, 0.0f)
 {
     m_window.setFramerateLimit(60);
+
+    refreshView();
 }
 
 DisplayManager* DisplayManager::instance()

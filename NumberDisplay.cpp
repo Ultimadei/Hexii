@@ -29,7 +29,7 @@ void NumberDisplay::setSprite(sf::Sprite sprite, float scaleFactor) {
 
 	const sf::FloatRect spriteLocalBounds = m_sprite->getLocalBounds();
 
-	// Set the sprite's origin to its local center, before scaling
+	// Set the sprite's origin to its local centre, before scaling
 	m_sprite->setOrigin(spriteLocalBounds.left + spriteLocalBounds.width * 0.5f, spriteLocalBounds.top + spriteLocalBounds.height * 0.5f);
 	m_sprite->setScale(scaleFactor, scaleFactor);
 
@@ -124,7 +124,7 @@ void NumberDisplay::updateSpritePosition() {
 	const sf::FloatRect textBounds = getLocalBounds();
 	const sf::FloatRect spriteGlobalBounds = m_sprite->getGlobalBounds();
 
-	// Align the sprite's center with the center of the text string, then move the sprite to the right of the text
+	// Align the sprite's centre with the centre of the text string, then move the sprite to the right of the text
 	m_sprite->setPosition(textBounds.left + textBounds.width * 0.5f, textBounds.top + textBounds.height * 0.5f);
 	m_sprite->move(20.0f + textBounds.width * 0.5f + spriteGlobalBounds.width * 0.5f, 0.0f);
 }
