@@ -7,5 +7,5 @@ void main()
     gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
 
     // Forward the vertex color
-    gl_FrontColor = gl_Color;// * 0.5 * mod(time, 2);
+    gl_FrontColor = gl_Color;
 }

@@ -28,12 +28,7 @@ void InputManager::addEventCallback(sf::Event::EventType type, EventCallback cal
 
 void InputManager::processInput(sf::Event& evnt) {
     switch (evnt.type) {
-    case sf::Event::MouseMoved:
-        // If the right mouse button is being held down, pan the camera as the mouse moves
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-            DisplayManager::instance()->pan(sf::Vector2f(m_lastMousePosition.x - evnt.mouseMove.x, m_lastMousePosition.y - evnt.mouseMove.y), 3.0f);
-        }
-        
+    case sf::Event::MouseMoved:        
         m_lastMousePosition = sf::Vector2i(evnt.mouseMove.x, evnt.mouseMove.y);
         break;
     case sf::Event::MouseWheelScrolled:
@@ -43,6 +38,7 @@ void InputManager::processInput(sf::Event& evnt) {
     }
 
     // Now the callbacks
+    // !!IMPORTANT TODO: Callbacks belonging to objects that have been deleted will lead to undefined behaviour. Fix with smart pointers or similar
     auto it = m_eventCallbacks.find(evnt.type);
     if (it != m_eventCallbacks.end()) { // One or more callbacks are registered to this event type
         for (EventCallback callback : it->second) {

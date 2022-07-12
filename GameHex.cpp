@@ -12,8 +12,7 @@ GameHex::GameHex(float size, sf::Vector2f initialPosition) :
 	m_held(false)
 {
 	setShader(ResourceManager::getShader("hex"));
-	// TODO: Fix this hack
-	setTexture(ResourceManager::getTexture("hexProgressBar"));
+	setTexture(ResourceManager::getTexture("hex"));
 
 	m_shader->setUniform("progressBar", *ResourceManager::getTexture("hexProgressBar"));
 }
@@ -51,5 +50,5 @@ void GameHex::update(float dt) {
 	}
 
 	m_shader->setUniform("progress", m_yieldProgress);
-	m_shader->setUniform("centre", sf::Vector2f(DisplayManager::worldToScreen(getPosition())));
+	m_shader->setUniform("centre", sf::Vector2f(DisplayManager::worldToScreen(getPosition(), true)));
 }

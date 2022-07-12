@@ -40,10 +40,6 @@ HexiiManager* HexiiManager::instance() {
 
 void HexiiManager::update(float dt) {
     m_cluster.update(dt);
-
-    // TODO: Is this necessary?
-    if (m_nearestBorderHex.hexagon != nullptr) accessHexagon(m_nearestBorderHex)->setActive(true);
-
     m_hexiiUpgradeOverlay.update(dt);
     m_greenMatter.update(dt);
 }
@@ -54,8 +50,9 @@ void HexiiManager::drawGame(sf::RenderWindow& target) {
     // Hexagons can't be purchased while the upgrade overlay is active
     // If a border is being drawn, also display the cost to purchase it
     if (!m_hexiiUpgradeOverlay.getActive() && m_nearestBorderHex.hexagon != nullptr) target.draw(m_nextHexCost);
+
     // Draw the upgrade overlay until it is finished animating, aka progress == 0.0f
-    else if (m_hexiiUpgradeOverlay.getProgress() > 0.0f) {
+    if (m_hexiiUpgradeOverlay.getProgress() > 0.0f) {
         target.draw(m_hexiiUpgradeOverlay);
     }
 
@@ -74,8 +71,8 @@ void HexiiManager::onMouseMove(sf::Event evnt) {
 
     // No changes necessary if the mouse is over the same hex
     if (currentMouseOverHex.hexagon != m_mouseOverHex.hexagon) {
-        Hexagon* previous = accessHexagon(m_mouseOverHex);
-        Hexagon* current = accessHexagon(currentMouseOverHex);
+        Hexagon* previous = m_mouseOverHex.hexagon;
+        Hexagon* current = currentMouseOverHex.hexagon;
 
         if (previous != nullptr) previous->onMouseExit();
         if (current != nullptr) current->onMouseEnter();
@@ -86,11 +83,11 @@ void HexiiManager::onMouseMove(sf::Event evnt) {
 
     // Similar thing for the border hex
     if (currentNearestBorderHex.hexagon != m_nearestBorderHex.hexagon) {
-        Hexagon* previous = accessHexagon(m_nearestBorderHex);
-        Hexagon* current = accessHexagon(currentNearestBorderHex);
+        Hexagon* previous = m_nearestBorderHex.hexagon;
+        Hexagon* current = currentNearestBorderHex.hexagon;
 
         if (previous != nullptr) previous->setActive(false);
-        if (current != nullptr) current->setActive(true);
+        if (current != nullptr && !m_hexiiUpgradeOverlay.getActive()) current->setActive(true);
 
         // Update the store
         m_nearestBorderHex = currentNearestBorderHex;
@@ -105,7 +102,7 @@ void HexiiManager::onMouseClick(sf::Event evnt) {
     // Only count clicks that are inside of the world border
     if (m_worldBorder.collidePoint(mousePos)) {
         m_clickedHex = m_cluster.calculateNearestHexagon(mousePos);
-        m_clickedHex.hexagon->onMouseClick();
+        if(m_clickedHex.hexagon != nullptr && evnt.mouseButton.button == sf::Mouse::Button::Left && m_clickedHex.hexagon->collidePoint(mousePos)) m_clickedHex.hexagon->onMouseClick();
     }
     else m_clickedHex.hexagon = nullptr;
 }
@@ -113,21 +110,22 @@ void HexiiManager::onMouseClick(sf::Event evnt) {
 void HexiiManager::onMouseReleased(sf::Event evnt) {
     sf::Vector2f mousePos = DisplayManager::screenToWorld(sf::Vector2i(evnt.mouseButton.x, evnt.mouseButton.y));
 
-    /*  Nothing will happen here if
-             - Mouse initially clicked on nothing
-             - Mouse is released on nothing
-             - Mouse is released while the upgrade overlay is active
-             - Mouse is released outside of the hex it initially clicked
-
-        Otherwise, two things can happen:
-            - A game hex is right clicked => Open the upgrade overlay
-            - A border hex is clicked => Attempt to purchase it [TODO: NOT IMPLEMENTED YET]
+    /* What can happen:
+        - A game hex is right clicked => Open the upgrade overlay
+        - User right clicks while the upgrade overlay is open => Close the upgrade overlay
+        - A border hex is clicked => Attempt to purchase it [NOT IMPLEMENTED YET]
     */
 
-    if (m_clickedHex.hexagon != nullptr) accessHexagon(m_clickedHex)->onMouseRelease();
-    else return;
+    // Right clicking while the upgrade overlay is present should hide the overlay (but only do this if enough of the animation has been shown)
+    if (m_hexiiUpgradeOverlay.getActive() && evnt.mouseButton.button == sf::Mouse::Button::Right && m_hexiiUpgradeOverlay.getProgress() > 0.4f)
+        return m_hexiiUpgradeOverlay.deactivate();
 
-    if (!m_worldBorder.collidePoint(mousePos) || m_hexiiUpgradeOverlay.getActive()) return;
+    // Beyond this point, nothing can happen without there being a clicked hex
+    if (m_clickedHex.hexagon != nullptr) m_clickedHex.hexagon->onMouseRelease();
+    else return;
+    
+    // Ignore all inputs outside of the world border
+    if (!m_worldBorder.collidePoint(mousePos)) return;
 
     if (evnt.mouseButton.button == sf::Mouse::Button::Left) { // Left mouse click
         // TODO: Implement hex purchasing

@@ -72,12 +72,12 @@ HexagonCluster::HexagonIndexPair HexagonCluster::calculateNearest(const HexagonP
 	HexagonIndexPair result;
 
 	for (auto& i : plane.hexagonMap()) {
-		sf::Vector2f dist = i.second->getPosition() - point;
-		dist.x *= dist.x;
-		dist.y *= dist.y;
+		sf::Vector2f distVec = i.second->getPosition() - point;
+		distVec.x *= distVec.x;
+		distVec.y *= distVec.y;
 
 		// `distSqr` is the distance between position and `point`, squared (for performance)
-		float distSqr = dist.x + dist.y;
+		float distSqr = distVec.x + distVec.y;
 
 		if ((distSqr < maximumDistance || maximumDistance == 0.0f) && 
 			(distSqr < shortestDist || shortestDist == -1.0f))

@@ -40,10 +40,6 @@ private:
 
 	/// Utility
 
-	// Uses const_cast to gain access to the hexagon stored in an index pair
-	// This is completely safe and allows the HexagonPlane to remain mostly const-friendly
-	inline static Hexagon* accessHexagon(const HexagonIndexPair& target) { return const_cast<Hexagon*>(target.hexagon); }
-
 	inline bool isNextHexCostAffordable() const { return m_greenMatter.getNumber() >= m_nextHexCost.getNumber(); }
 
 	/// Gameplay

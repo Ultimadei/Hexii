@@ -20,12 +20,12 @@ public:
 	// Calculates and returns the HexagonIndexPair of the hexagon nearest `point` as long as it falls within maximum distance (0 for no max)
 	// Returns (0, 0, 0) and nullptr if unsuccessful
 	inline HexagonIndexPair calculateNearestHexagon(sf::Vector2f point, float maximumDistance = 0.0f, bool checkCollision = true) const
-		{ return calculateNearest(m_mainPlane, point, maximumDistance); }
+		{ return calculateNearest(m_mainPlane, point, maximumDistance, checkCollision); }
 
 	// Calculates and returns the HexagonIndexPair of the border nearest `point` as long as it falls within maximum distance (0 for no max)
 	// Returns (0, 0, 0) and nullptr if unsuccessful
 	inline HexagonIndexPair calculateNearestBorder(sf::Vector2f point, float maximumDistance = 0.0f, bool checkCollision = true) const
-		{ return calculateNearest(m_borderPlane, point, maximumDistance); }
+		{ return calculateNearest(m_borderPlane, point, maximumDistance, checkCollision); }
 	
 
 	// Creates a hexagon at `index`. Fails if there isn't a border at `index` (because they must be connected)

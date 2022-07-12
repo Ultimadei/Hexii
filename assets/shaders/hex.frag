@@ -6,18 +6,19 @@ uniform float progress;
 uniform vec2 centre;
 uniform sampler2D progressBar;
 
+// Second argument is negated in order to have the radial start on the left
 float angleBetween(vec2 v1, vec2 v2)
 {
     return atan( v1.y - v2.y, -(v1.x - v2.x)) + PI;
 }
 
+// Angle of the radial (where TWO_PI would mean the full thing)
 float getTargetAngle() 
 {
     return clamp(progress * TWO_PI, 0.0, TWO_PI);
 }
 
-// OpenGL uses upper left as origin by default
-bool shouldDrawFragment(vec2 fragCoord)
+bool shouldDrawProgress(vec2 fragCoord)
 {
     float targetAngle = getTargetAngle();
 
@@ -28,10 +29,12 @@ bool shouldDrawFragment(vec2 fragCoord)
 
 void main()
 {
+    // Start with the existing color
     vec4 col = gl_Color;
 
-    if (shouldDrawFragment(gl_FragCoord.xy)) {
+    if (shouldDrawProgress(gl_FragCoord.xy)) {
         vec4 pixel = texture2D(progressBar, gl_TexCoord[0].xy);
+        // The progress bar texture should act as an overlay
         if (pixel.a > 0.0) {
             col = pixel;
         }
