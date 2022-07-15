@@ -42,11 +42,9 @@ bool Hexagon::collidePoint(sf::Vector2f point) const {
 
 	if (!bounds.contains(point)) { return false; }
 
-	/// Now we leverage symmetry to detect if 
-
-	// Move point into the bottom right quadrant (positive x, positive y)
-	point.x = std::abs(point.x);
-	point.y = std::abs(point.y);
+	/// Now we leverage symmetry to detect by moving point into the bottom right quadrant (positive x, positive y)
+	point.x = abs(point.x);
+	point.y = abs(point.y);
 	
 	/*
 	// middleRightCorner = (m_size, 0.0f)

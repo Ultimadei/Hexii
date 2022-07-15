@@ -211,6 +211,8 @@
   <ItemGroup>
     <Image Include="assets\textures\blueMatter.png" />
     <Image Include="assets\textures\greenMatter.png" />
+    <Image Include="assets\textures\hex.png" />
+    <Image Include="assets\textures\hexProgressBar.png" />
     <Image Include="assets\textures\redMatter.png" />
     <Image Include="assets\textures\upgradeLockedIcon.png" />
   </ItemGroup>

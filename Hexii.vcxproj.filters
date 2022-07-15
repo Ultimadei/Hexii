@@ -240,5 +240,11 @@
     <Image Include="assets\textures\redMatter.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="assets\textures\hex.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\textures\hexProgressBar.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
 </Project>

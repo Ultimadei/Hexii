@@ -26,7 +26,7 @@ Game::Game() {
 }
 
 void Game::run() {
-    while (DisplayManager::getWindow()->isOpen()) {
+    while (m_window->isOpen()) {
         processInput();
 
         update();
@@ -61,7 +61,7 @@ void Game::update() {
 }
 
 void Game::draw() {
-    m_window->clear(sf::Color(127, 127, 127, 255));
+    m_window->clear(sf::Color(200, 200, 200, 255));
 
     m_displayManager->useGameView();
 

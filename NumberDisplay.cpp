@@ -5,7 +5,7 @@
 #include "ResourceManager.h"
 
 NumberDisplay::NumberDisplay(double initialNumber, sf::Vector2f initialPosition) :
-	sf::Text("", *ResourceManager::getFont("cour")),
+	sf::Text("", *ResourceManager::getFont("finlandica")),
 	m_number(initialNumber),
 	m_sprite(nullptr)
 {

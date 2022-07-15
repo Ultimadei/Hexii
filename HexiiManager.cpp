@@ -52,7 +52,7 @@ void HexiiManager::drawGame(sf::RenderWindow& target) {
     if (!m_hexiiUpgradeOverlay.getActive() && m_nearestBorderHex.hexagon != nullptr) target.draw(m_nextHexCost);
 
     // Draw the upgrade overlay until it is finished animating, aka progress == 0.0f
-    if (m_hexiiUpgradeOverlay.getProgress() > 0.0f) {
+    if (m_hexiiUpgradeOverlay.getProgress() >= 0.0f) {
         target.draw(m_hexiiUpgradeOverlay);
     }
 
@@ -131,7 +131,10 @@ void HexiiManager::onMouseReleased(sf::Event evnt) {
         // TODO: Implement hex purchasing
     }
     else if (evnt.mouseButton.button == sf::Mouse::Button::Right) { // Right mouse click
-        if (m_clickedHex.hexagon == m_cluster.calculateNearestHexagon(mousePos).hexagon) m_hexiiUpgradeOverlay.activate(m_clickedHex.hexagon, 1);
+        if (m_clickedHex.hexagon == m_cluster.calculateNearestHexagon(mousePos).hexagon) 
+            m_hexiiUpgradeOverlay.activate(m_clickedHex.hexagon, 1);
+
+        // TODO: Activating an animation that's already active breaks stuff
     }
 }
 
@@ -146,7 +149,7 @@ void HexiiManager::processHexYield(Hexagon* target, BigNumber yield) {
 Hexagon* HexiiManager::generateGameHex() {
     GameHex* hex = new GameHex(m_cluster.hexagonSize());
 
-    hex->setFillColor(sf::Color(25, 255, 25, 255));
+    hex->setFillColor(sf::Color(58, 193, 121, 255));
 
     hex->setAnimation("hover.color", new ColorAnimation(
         hex, sf::Color(25, 255, 25, 255), sf::Color(25, 255, 200, 255),
