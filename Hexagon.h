@@ -1,23 +1,23 @@
 #pragma once
 
-#include "Trig.h"
+#include "Trig.hpp"
 
-#include "ElementParent.h"
-#include "AnimationParent.h"
-#include "ConvexShapeElement.h"
+#include "Animator.hpp"
+#include "ConvexShapeElement.hpp"
 
 class Hexagon :
-	public ElementParent,
-	public AnimationParent,
 	public ConvexShapeElement {
 public:
-	// Construct with size and optionally with a starting position and/or hexii data
-	Hexagon(float size, sf::Vector2f initialPosition = sf::Vector2f(0.0f, 0.0f));
-	// Copy constructor
-	Hexagon(const Hexagon& right);
-	inline ~Hexagon() {}
+	typedef std::shared_ptr<Hexagon> SPHexagon;
 
-	/// ** Public member functions
+protected:
+	typedef std::function<void()> InputCallbackFunction;
+
+public:
+	// Construct with size and optionally a starting position
+	Hexagon(float size, sf::Vector2f initialPosition = sf::Vector2f(0.0f, 0.0f));
+
+	inline virtual ~Hexagon() {}
 
 	// Checks if there is a collision with `point`
 	bool collidePoint(sf::Vector2f point) const;	
@@ -25,25 +25,30 @@ public:
 	/// Utility 
 
 	inline static float width(float size) { return size * 2.0f; }
-	inline static float height(float size) { return size * CONSTANT_SQRT3; }
+	inline static float height(float size) { return size * SQRT3; }
 
 	inline float size() const { return m_size; }
 	inline float width() const { return m_size * 2.0f; }
-	inline float height() const { return m_size * CONSTANT_SQRT3; }
+	inline float height() const { return m_size * SQRT3; }
 
-	// Preserves own size and children. Everything else is copied from right
-	void operator=(const Hexagon& right);
+	/// Callbacks
 
-	/// Callback
+	inline void onMouseEnter() { if (m_onMouseEnter) m_onMouseEnter(); }
+	inline void onMouseExit() { if (m_onMouseExit) m_onMouseExit(); }
+	inline void onMouseClick() { if (m_onMouseClick) m_onMouseClick(); }
+	inline void onMouseRelease() { if (m_onMouseRelease) m_onMouseRelease(); }
 
-	inline virtual void onMouseEnter() {}
-	inline virtual void onMouseExit() {}
-	inline virtual void onMouseClick() {}
-	inline virtual void onMouseRelease() {}
+	inline virtual void update(float dt) { animator.update(dt); }
 
-	virtual void update(float dt);
+	// Can be accessed publicly as the gateway to animations
+	Animator animator;
+
 protected:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	InputCallbackFunction m_onMouseEnter;
+	InputCallbackFunction m_onMouseExit;
+	InputCallbackFunction m_onMouseClick;
+	InputCallbackFunction m_onMouseRelease;
+
 private:
 	// "size" refers to the side length
 	const float m_size;

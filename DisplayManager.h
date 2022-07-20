@@ -19,6 +19,8 @@ public:
 	// flipY is necessary if the return value is being used in a shader because OpenGL has an inverted y
 	static sf::Vector2i worldToScreen(const sf::Vector2f& point, bool flipY = false);
 
+	inline static unsigned int getTargetFPS() { return instance()->m_targetFPS; }
+
 	/// ** Public member functions **
 
 	/// View modifiers
@@ -44,6 +46,8 @@ private:
 	inline void useDefaultView() { m_window.setView(m_window.getDefaultView()); }
 
 	static DisplayManager* s_instance;
+
+	const unsigned int m_targetFPS;
 
 	/// Primary SFML values
 

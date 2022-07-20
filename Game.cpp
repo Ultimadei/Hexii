@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Trig.h"
+#include "Trig.hpp"
 
 Game::Game() {
     // Setup the DisplayManager
@@ -55,7 +55,7 @@ void Game::processInput() {
 }
 
 void Game::update() {
-    float dt = 60.0f * m_fpsClock.restart().asSeconds();
+    float dt = m_displayManager->getTargetFPS() * m_fpsClock.restart().asSeconds();
 
     m_hexiiManager->update(dt);    
 }

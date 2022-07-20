@@ -15,40 +15,33 @@ GameHex::GameHex(float size, sf::Vector2f initialPosition) :
 	setTexture(ResourceManager::getTexture("hex"));
 
 	m_shader->setUniform("progressBar", *ResourceManager::getTexture("hexProgressBar"));
+
+	m_onMouseEnter = [this]() { return mouseEnter(); };
+	m_onMouseExit = [this]() {return mouseExit(); };
+	m_onMouseClick = [this]() { return mouseClick(); };
+	m_onMouseRelease = [this]() { return mouseRelease(); };
 }
 
-void GameHex::onMouseEnter() {
-	switchAnimation(
-		"hover.color", "_default_",
-		AnimationParent::SwitchMode::ACTIVATE, true,
-		0.5f, 0.0f
-	);
+void GameHex::mouseEnter() {
+	if(animator["hoverColor"]) animator["hoverColor"]->play();
+	if (animator["hoverColorReverse"]) animator["hoverColorReverse"]->stop();
 }
 
-void GameHex::onMouseExit() {
-	switchAnimation(
-		"hover.color", "_reverse_",
-		AnimationParent::SwitchMode::ACTIVATE_IMMITATE_INVERSE_OFFSET, true,
-		0.5f, 0.0f
-	);
-}
-
-void GameHex::onMouseClick() {
-	m_held = true;
-}
-
-void GameHex::onMouseRelease() {
-	m_held = false;
+void GameHex::mouseExit() {
+	if (animator["hoverColorReverse"]) animator["hoverColorReverse"]->play();
+	if (animator["hoverColor"]) animator["hoverColor"]->stop();
 }
 
 void GameHex::update(float dt) {
-	m_yieldProgress += m_yieldSpeed * (dt / 60.0f) * (m_held ? m_activeSpeedMultiplier : 1.0f);
+	m_yieldProgress += m_yieldSpeed * (dt / DisplayManager::getTargetFPS()) * (m_held ? m_activeSpeedMultiplier : 1.0f);
 
 	while (m_yieldProgress > 1.0f) {
 		m_yieldProgress -= 1.0f;
-		m_onYield(this, m_yieldAmount);
+		m_onYield(*this, m_yieldAmount);
 	}
 
 	m_shader->setUniform("progress", m_yieldProgress);
 	m_shader->setUniform("centre", sf::Vector2f(DisplayManager::worldToScreen(getPosition(), true)));
+
+	Hexagon::update(dt);
 }

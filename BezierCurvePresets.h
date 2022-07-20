@@ -2,7 +2,7 @@
 
 #include "BezierCurve.h"
 
-namespace BezierCurvePresets {
+namespace BezierCurves {
 	extern BezierCurve easeInOut;
 	extern BezierCurve easeInOutBidirectional;
 

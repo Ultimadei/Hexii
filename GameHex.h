@@ -10,23 +10,25 @@
 class GameHex :
     public Hexagon
 {
-private:
-	/// ** Structs & Definitions ** ///
+public:
+	typedef std::shared_ptr<GameHex> SPGameHex;
+	using SPAnimation = Animation::SPAnimation;
 
-	typedef std::function<void(Hexagon*, BigNumber)> YieldFunction;
+private:
+	typedef std::function<void(const GameHex&, BigNumber)> YieldFunction;
 
 public:
 	GameHex(float size, sf::Vector2f initialPosition = sf::Vector2f(0.0f, 0.0f));
 
 	inline void setOnYield(YieldFunction onYield) { m_onYield = onYield; }
 
-	void onMouseEnter() override;
-	void onMouseExit() override;
-	void onMouseClick() override;
-	void onMouseRelease() override;
-
 	void update(float dt) override;
 private:
+	void mouseEnter();
+	void mouseExit();
+	inline void mouseClick() { m_held = true; }
+	inline void mouseRelease() { m_held = false; }
+
 	/// Yield related
 
 	YieldFunction m_onYield;

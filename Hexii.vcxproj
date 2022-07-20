@@ -151,62 +151,48 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationParent.cpp" />
-    <ClCompile Include="AnimationBase.cpp" />
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BezierCurve.cpp" />
     <ClCompile Include="BezierCurvePresets.cpp" />
     <ClCompile Include="BigNumber.cpp" />
-    <ClCompile Include="ColorAnimation.cpp" />
-    <ClCompile Include="ConvexShapeElement.cpp" />
-    <ClCompile Include="AbstractElementBase.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
-    <ClCompile Include="ElementParent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameHex.cpp" />
     <ClCompile Include="Hexagon.cpp" />
-    <ClCompile Include="HexagonCluster.cpp" />
     <ClCompile Include="HexagonPlane.cpp" />
     <ClCompile Include="HexiiManager.cpp" />
-    <ClCompile Include="HexiiUpgradeOverlay.cpp" />
+    <ClCompile Include="HexiiUpgradeGUI.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NumberDisplay.cpp" />
-    <ClCompile Include="ParentBase.cpp" />
+    <ClCompile Include="NumberHUD.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="RotationAnimation.cpp" />
-    <ClCompile Include="RectangleShapeElement.cpp" />
-    <ClCompile Include="SpriteElement.cpp" />
-    <ClCompile Include="TranslationAnimation.cpp" />
-    <ClCompile Include="Trig.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationParent.h" />
-    <ClInclude Include="AnimationBase.h" />
+    <ClInclude Include="Animator.hpp" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="BezierCurve.h" />
     <ClInclude Include="BezierCurvePresets.h" />
     <ClInclude Include="BigNumber.h" />
-    <ClInclude Include="ColorAnimation.h" />
-    <ClInclude Include="ConvexShapeElement.h" />
-    <ClInclude Include="AbstractElementBase.h" />
+    <ClInclude Include="ColorAnimation.hpp" />
+    <ClInclude Include="ConvexShapeElement.hpp" />
     <ClInclude Include="DisplayManager.h" />
-    <ClInclude Include="ElementBase.h" />
-    <ClInclude Include="ElementParent.h" />
+    <ClInclude Include="Element.hpp" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameHex.h" />
     <ClInclude Include="Hexagon.h" />
-    <ClInclude Include="HexagonCluster.h" />
+    <ClInclude Include="HexagonCluster.hpp" />
     <ClInclude Include="HexagonPlane.h" />
     <ClInclude Include="HexiiManager.h" />
-    <ClInclude Include="HexiiUpgradeOverlay.h" />
+    <ClInclude Include="HexiiUpgradeGUI.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="NumberDisplay.h" />
-    <ClInclude Include="ParentBase.h" />
+    <ClInclude Include="NumberHUD.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="RotationAnimation.h" />
-    <ClInclude Include="RectangleShapeElement.h" />
-    <ClInclude Include="SpriteElement.h" />
-    <ClInclude Include="TranslationAnimation.h" />
-    <ClInclude Include="Trig.h" />
+    <ClInclude Include="FloatAnimation.hpp" />
+    <ClInclude Include="RectangleShapeElement.hpp" />
+    <ClInclude Include="SpriteElement.hpp" />
+    <ClInclude Include="TextElement.hpp" />
+    <ClInclude Include="Vector2fAnimation.hpp" />
+    <ClInclude Include="Trig.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\blueMatter.png" />

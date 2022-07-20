@@ -1,6 +1,6 @@
 #include "BezierCurvePresets.h"
 
-namespace BezierCurvePresets {
+namespace BezierCurves {
 	BezierCurve easeInOut({
 		sf::Vector2f(0.0f, 0.0f),
 		sf::Vector2f(0.45f, 0.0f),

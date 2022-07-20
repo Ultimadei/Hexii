@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <functional>
 #include <map>
 
 #include "Hexagon.h"
@@ -8,90 +8,88 @@
 // A transformed plane for hexagons 
 class HexagonPlane :
 	public sf::Drawable {
-private:
-	/// ** Private Structs & Definitions ** ///
-
-	struct Vector3iComparator {
-		bool operator()(const sf::Vector3i& a, const sf::Vector3i& b) const {
-			if (a.z < b.z) {
-				return true;
-			}
-			else if (a.z > b.z) {
-				return false;
-			}
-			if (a.y < b.y) {
-				return true;
-			}
-			else if (a.y > b.y) {
-				return false;
-			}
-			if (a.x < b.x) {
-				return true;
-			}
-			return false;
-		}
-	};
-
-	typedef std::map<sf::Vector3i, Hexagon*, Vector3iComparator> HexagonMap;
 public:
-	/// ** Public Structs & Definitions ** ///
+	using SPHexagon = Hexagon::SPHexagon;
+	typedef std::shared_ptr<HexagonPlane> SPHexagonPlane;
 
 	struct HexagonIndexPair {
+		inline HexagonIndexPair(sf::Vector3i index = sf::Vector3i(), SPHexagon hexagon = nullptr) : index(index), hexagon(hexagon) {}
+
 		sf::Vector3i index;
-		Hexagon* hexagon = nullptr;
+		SPHexagon hexagon = nullptr;
 	};
 
 	struct NeighborGroup {
 		HexagonIndexPair centre;
 		HexagonIndexPair neighbors[6];
 	};
+
+protected:
+	typedef std::function<SPHexagon()> FactoryFunction;
+
+private:
+	struct Vector3iComparator {
+		bool operator()(const sf::Vector3i& a, const sf::Vector3i& b) const;
+	};
+
+	typedef std::map<sf::Vector3i, SPHexagon, Vector3iComparator> HexagonMap;
+
 public:
-	HexagonPlane(float hexSize);
-
-	/// Interfacing
-
-	/*
-	Sets the hexagon at the specified index
-	If conditional, the index will only be set as long as it is currently empty
-	Returns a HexagonIndexPair containing the new hexagon (or nullptr if it was unsuccessful)
-	*/
-	HexagonIndexPair setIndex(Hexagon* hexagon, const sf::Vector3i& index, bool conditional = false);
-	inline HexagonIndexPair setIndex(Hexagon* hexagon, int x, int y, int z, bool conditional = false) 
-		{ return setIndex(hexagon, sf::Vector3i(x, y, z), conditional); }
-
-	// Erases the hexagon at the specified index if one exists
-	void eraseIndex(const sf::Vector3i& index);
-	inline void eraseIndex(int x, int y, int z) { eraseIndex(sf::Vector3i(x, y, z)); }
-	
-	// Returns the indices and hexagons surrounding `index`
-	// Note: Neither index, nor any of its neighbors, are required to actually have a hexagon
-	const NeighborGroup getNeighbors(const sf::Vector3i& index) const;
-	inline const NeighborGroup getNeighbors(int x, int y, int z) const { return getNeighbors(sf::Vector3i(x, y, z)); }
-
-	// Get the position of the hexagon at `index`
-	sf::Vector2f getPositionFromIndex(const sf::Vector3i& index) const;
-	inline sf::Vector2f getPositionFromIndex(int x, int y, int z) const { return getPositionFromIndex(sf::Vector3i(x, y, z)); }
-
-	// Get the index corresponding to `position`
-	sf::Vector3i getIndexFromPosition(const sf::Vector2f& position) const;	
+	// `size` is used to determine the spacing of hexii (e.g if it matches the hex size then there will be no gaps)
+	inline HexagonPlane(float hexSize, FactoryFunction factory = nullptr) : m_hexSize(hexSize), m_factory(factory) {}
+	inline virtual ~HexagonPlane() {}
 
 	// Returns a HexagonIndexPair containing the hexagon at `index` (or nullptr if none)
-	HexagonIndexPair getIndex(const sf::Vector3i& index) const;
-	inline HexagonIndexPair getIndex(int x, int y, int z) const { return getIndex(sf::Vector3i(x, y, z)); }
+	HexagonIndexPair getHex(const sf::Vector3i& index) const;
 
-	/// Utility
+	// Calculates the nearest hexagon to `point`
+	// If `maximumDistance` > 0, the hex must fall within that distance, and if `checkCollision` is true then `point` must collide with the hex
+	HexagonIndexPair getNearestHex(const sf::Vector2f& point, float maximumDistance = 0.0f, bool checkCollision = false) const;
+
+	// Get the position of the hexagon at `index`
+	sf::Vector2f getPosition(const sf::Vector3i& index) const;
+
+	// Returns the hexagons surrounding `index`
+	// Note: Neither index, nor any of its neighbors, are required to actually have a hexagon set
+	const NeighborGroup getNeighbors(const sf::Vector3i& index) const;
+
+	// Checks if there is at least one hex adjacent to `index` (Note: there does not need to be a hex set at `index` itself)
+	bool hasNeighbor(const sf::Vector3i& index) const;
+
+	// Get the index corresponding to `position`
+	HexagonIndexPair getIndex(const sf::Vector2f& position) const;
+	// Gets the hexagon index pair given a layer and an angle in radians measured from north (vertically upwards)
+	HexagonIndexPair getIndex(unsigned int layer, float angle) const;
+
+	// Returns how far away `index` is from a specified centre, measured in full hexagons 
+	static unsigned int getLayer(sf::Vector3i index, const sf::Vector3i& centre = sf::Vector3i(0, 0, 0));
+
+	// Sets the hexagon at the specified index and returns a HexagonIndexPair containing the new hexagon (or nullptr if it was unsuccessful)
+	// If `hexagon` is set to nullptr, this plane's blueprint will be used if possible. Fails otherwise (to remove a hex, use `eraseHex(...)`)
+	virtual HexagonIndexPair setHex(const sf::Vector3i& index, SPHexagon hexagon = nullptr);
+
+	// Erases the hexagon at the specified index if one exists
+	void eraseHex(const sf::Vector3i& index);
+
+	// Updates the blueprint for future hexagons
+	inline void setFactory(FactoryFunction blueprint) { m_factory = blueprint; }
 
 	// Returns the inner map for easy iteration
-	inline HexagonMap& getHexagonMap() { return m_hexagonMap; }
+	inline HexagonMap& getHexMap() { return m_hexMap; }
 	// Returns the inner map as const
-	inline const HexagonMap& hexagonMap() const { return m_hexagonMap; }
-	inline float hexagonSize() const { return m_hexSize; }
+	inline const HexagonMap& hexMap() const { return m_hexMap; }
 
-	void update(float dt);
+	inline float hexSize() const { return m_hexSize; }
+	inline float hexWidth() const { return Hexagon::width(m_hexSize); }
+	inline float hexHeight() const { return Hexagon::height(m_hexSize); }
+
+	inline void update(float dt) { for (auto& i : m_hexMap) if (i.second->active) i.second->update(dt); }
+
 protected:
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-private:
-	const float m_hexSize;
+	inline virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override 
+		{ for (auto& i : m_hexMap) if (i.second->active) target.draw(*i.second, states); }
 
-	HexagonMap m_hexagonMap;
+	float m_hexSize;
+	HexagonMap m_hexMap;
+	FactoryFunction m_factory;
 };

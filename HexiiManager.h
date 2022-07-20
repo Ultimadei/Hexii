@@ -1,8 +1,9 @@
 #pragma once
 
-#include "HexagonCluster.h"
-#include "NumberDisplay.h"
-#include "HexiiUpgradeOverlay.h"
+#include "HexagonCluster.hpp"
+#include "NumberHUD.h"
+#include "HexiiUpgradeGUI.h"
+#include "GameHex.h"
 
 // Singleton class responsible for the gameplay functionality of the Hexii (Hexii is the plural of GameHex)
 class HexiiManager
@@ -12,6 +13,10 @@ private:
 
 	using HexagonIndexPair = HexagonCluster::HexagonIndexPair;
 	using NeighborGroup = HexagonCluster::NeighborGroup;
+
+	using SPHexagon = Hexagon::SPHexagon;
+	using SPGameHex = GameHex::SPGameHex;
+	using SPHexagonPlane = HexagonPlane::SPHexagonPlane;
 public:
 	static HexiiManager* instance();
 
@@ -27,7 +32,9 @@ public:
 	void onMouseReleased(sf::Event evnt);
 
 	void update(float dt);
+	// Draws all the elements that live in the game view
 	void drawGame(sf::RenderWindow& target);
+	// Draws the elements that aren't affected by the game view (some but not all UI & HUD elements)
 	void drawUI(sf::RenderWindow& target);
 private:
 	HexiiManager();
@@ -36,18 +43,13 @@ private:
 
 	static HexiiManager* s_instance;
 
-	/// ** Member functions **
-
-	/// Utility
-
-	inline bool isNextHexCostAffordable() const { return m_greenMatter.getNumber() >= m_nextHexCost.getNumber(); }
-
 	/// Gameplay
 
-	void processHexYield(Hexagon* target, BigNumber yield);
+	void processHexYield(const GameHex& target, BigNumber yield);
+	void expandBorders(const sf::Vector3i& at);
 
-	Hexagon* generateGameHex();
-	Hexagon* generateBorderHex();
+	SPHexagon generateGameHex();
+	SPHexagon generateBorderHex();
 
 	/// UI
 	
@@ -63,11 +65,13 @@ private:
 
 	/// Gameplay variables
 
+	SPHexagonPlane m_plane;
 	HexagonCluster m_cluster;
+	HexagonCluster m_borderCluster;
 	Hexagon m_worldBorder;
 
-	NumberDisplay m_greenMatter;
-	NumberDisplay m_nextHexCost;
+	SPBigNumber m_greenMatter;
+	SPBigNumber m_nextHexCost;
 
 	/// Event variables
 
@@ -80,5 +84,7 @@ private:
 
 	// UI & HUD
 
-	HexiiUpgradeOverlay m_hexiiUpgradeOverlay;
+	NumberHUD m_greenMatterHUD;
+	NumberHUD m_nextHexCostHUD;
+	HexiiUpgradeGUI m_hexiiUpgradeGUI;
 };
